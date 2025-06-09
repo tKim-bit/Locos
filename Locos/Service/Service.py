@@ -1,13 +1,15 @@
 import csv
-
+import os
 from Data import ShopData
 
 class Service:
+    
     def getShopList(self):
         shopList=list()
-        with open('shop.csv', newline='', encoding='utf-8') as csvfile:
-            reader = csv.reader(csvfile)
-            next(reader)  # ヘッダーをスキップ
+        csv_path = os.path.join(os.path.dirname(__file__), "../csvfiles/shopData_dummy.csv")
+        with open(csv_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.reader(csvfile) 
+            next(reader)
             for row in reader:
                 shop=ShopData(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],
                                 row[8],row[9],row[10],row[11],row[12])
