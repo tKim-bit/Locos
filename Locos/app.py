@@ -2,6 +2,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 from streamlit_javascript import st_javascript
+import Data.Review
+import Data.ShopData
+import Data.UserData
 
 def main():
     st.title('locos\n-地域のお店発見-')
