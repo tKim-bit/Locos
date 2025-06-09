@@ -8,7 +8,7 @@ def main():
     st.title('locos\n-地域のお店発見-')
     screen = st.sidebar.selectbox("", ["ホーム", "クーポン", "ブックマーク"])
     if screen == "ホーム":
-        st.button('周辺の店舗検索')
+        st.button(label='周辺の店舗検索', on_click=)
         st.map()
     elif screen == "クーポン":
         st.text_input("店名検索")
