@@ -2,6 +2,9 @@ import csv
 import os
 from Data import ShopData
 
+import requests  # 位置情報から店情報を取得するために使用（例: Google Places API）
+
+
 class Service:
     
     def getShopList(self):
@@ -55,3 +58,40 @@ class Service:
                 if review<=shop.reviewAvg:
                     result.append(shop)
         return result
+    
+    # ここから、位置情報関係
+    def get_nearby_places(self, lat, lng, radius=500):
+        api_key="";#取得したらここを変える
+        url = (
+            f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+            f"location={lat},{lng}&radius={radius}&type=store&key={api_key}"
+        )
+        response = requests.get(url)
+        data = response.json()
+        results = data.get("results", [])
+        return [{"name": place["name"], "address": place["vicinity"]} for place in results]
+    
+#     # JSで現在地取得
+# coords = st_javascript(
+#     """
+#     navigator.geolocation.getCurrentPosition(
+#         (position) => {
+#             const coords = {
+#                 latitude: position.coords.latitude,
+#                 longitude: position.coords.longitude
+#             };
+#             window.parent.postMessage({type: 'streamlit:setComponentValue', value: coords}, '*')
+#         }
+#     );
+#     """
+# )
+
+# # 現在地が取得できたら店情報を表示
+# if coords and "latitude" in coords and "longitude" in coords:
+#     service = Service()
+#     places = service.get_nearby_places(coords["latitude"], coords["longitude"])
+#     st.write("付近の店:")
+#     for place in places:
+#         st.write(f"- {place['name']} ({place['address']})")
+# else:
+#     st.write("位置情報の取得を許可してください。")
