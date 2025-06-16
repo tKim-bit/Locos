@@ -2,13 +2,13 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 from streamlit_javascript import st_javascript
-from Service import Service
+
 
 def main():
     st.title('locos\n-地域のお店発見-')
     screen = st.sidebar.selectbox("", ["ホーム", "クーポン", "ブックマーク"])
     if screen == "ホーム":
-        st.button(label='周辺の店舗検索', on_click=)
+        st.button('周辺の店舗検索')
         st.map()
     elif screen == "クーポン":
         st.text_input("店名検索")
