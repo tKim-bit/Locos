@@ -59,8 +59,8 @@ class Service:
         return result
     
     # ここから、位置情報関係
-    def get_nearby_places(self, lat, lng, radius=500):
-        api_key="";#取得したらここを変える
+    def get_nearby_places(self, lat, lng, radius=500, shopList=None):
+        api_key = ""  # ここに取得したAPIキーを入れる
         url = (
             f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
             f"location={lat},{lng}&radius={radius}&type=store&key={api_key}"
@@ -68,4 +68,28 @@ class Service:
         response = requests.get(url)
         data = response.json()
         results = data.get("results", [])
-        return [{"name": place["name"], "address": place["vicinity"]} for place in results]
+
+        shopDataList = []
+        for place in results:
+            name = place.get("name", "未設定")
+            address = place.get("vicinity", "未設定")
+
+            # shopListから詳細情報を補完（名前一致で検索）
+            if shopList is None:
+                shopList = self.getShopList()
+            matched = next((s for s in shopList if s.name == name), None)
+
+            if matched:
+                shopDataList.append(matched)
+            else:
+                shopDataList.append(ShopData(name=name, adress=address))
+
+        return shopDataList
+    
+    
+    # if coords and "latitude" in coords and "longitude" in coords:
+    # service = Service()
+    # fullShopList = service.getShopList()  # 既存の詳細付きデータ
+    # result = service.get_nearby_places(coords["latitude"], coords["longitude"], shopList=fullShopList)
+    # for shop in result:
+    #     st.markdown(f"- **{shop.name}**（{shop.adress}）")
