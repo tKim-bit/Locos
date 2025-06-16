@@ -6,7 +6,6 @@ import requests  # 位置情報から店情報を取得するために使用（�
 
 
 class Service:
-    
     def getShopList(self):
         shopList=list()
         csv_path = os.path.join(os.path.dirname(__file__), "../csvfiles/shopData_dummy.csv")
@@ -19,11 +18,11 @@ class Service:
                 shopList.append(shop)
         return shopList
     
-    def searchName(self,shopList,name):
+    def searchName(self,shopList,name,lat,lng):
         result=list()
         if not name.strip():
-            # 付近の店を出す
-            pass
+            # 付近の店を出す（緯度経度が必要）
+            result = self.get_nearby_places(lat, lng)
         else:
             result=list()
             for shop in shopList:
@@ -70,28 +69,3 @@ class Service:
         data = response.json()
         results = data.get("results", [])
         return [{"name": place["name"], "address": place["vicinity"]} for place in results]
-    
-#     # JSで現在地取得
-# coords = st_javascript(
-#     """
-#     navigator.geolocation.getCurrentPosition(
-#         (position) => {
-#             const coords = {
-#                 latitude: position.coords.latitude,
-#                 longitude: position.coords.longitude
-#             };
-#             window.parent.postMessage({type: 'streamlit:setComponentValue', value: coords}, '*')
-#         }
-#     );
-#     """
-# )
-
-# # 現在地が取得できたら店情報を表示
-# if coords and "latitude" in coords and "longitude" in coords:
-#     service = Service()
-#     places = service.get_nearby_places(coords["latitude"], coords["longitude"])
-#     st.write("付近の店:")
-#     for place in places:
-#         st.write(f"- {place['name']} ({place['address']})")
-# else:
-#     st.write("位置情報の取得を許可してください。")
