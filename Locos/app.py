@@ -13,6 +13,8 @@ def main():
         get_geolocation()
         st.button('周辺の店舗検索')
         st.map(st.session_state.geoloc)
+        if search_button:
+            searchform()
     elif screen == "クーポン":
         st.title('ブックマーク一覧')
         st.text_input("店名検索")
