@@ -51,6 +51,34 @@ def get_geolocation():
             st.markdown(f"- **{shop.name}**（{shop.adress}）")
     else:
         st.write("位置情報の取得を許可してください。")
+
+
+def searchform():
+    keyword=st.text_input('キーワード検索')
+    shopname=st.text_input('店名検索',help="正確な店名を入力してください")
+    st.header("評価で絞り込み")
+    min_review = st.number_input(
+        '最低評価値',
+        min_value=1.0,  # 最小許容値
+        max_value=5.0,  # 最大許容値
+        value=None,     # 初期値をNoneに設定 (何も入力されていない状態)
+        step=0.1,       # 0.1刻みで入力可能
+        help='1.0から5.0の間の数字を入力してください。空欄の場合、最低評価は適用されません。',
+        format="%.1f"   # 小数点以下1桁で表示
+    )
+    max_review = st.number_input(
+        '最大評価値',
+        min_value=1.0,  # 最小許容値
+        max_value=5.0,  # 最大許容値
+        value=None,     # 初期値をNoneに設定 (何も入力されていない状態)
+        step=0.1,       # 0.1刻みで入力可能
+        help='1.0から5.0の間の数字を入力してください。空欄の場合、最大評価は適用されません。',
+        format="%.1f"   # 小数点以下1桁で表示
+    )
+    parking=st.checkbox('駐車場有')
+    
+    search_button = st.button('この条件で検索')
+
 main()
 
 def get_coupon_list():
