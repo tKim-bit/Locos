@@ -14,7 +14,8 @@ def main():
         st.button('周辺の店舗検索')
         st.map(st.session_state.geoloc)
     elif screen == "クーポン":
-        st.title('ブックマーク一覧')
+        def get_coupon_list()
+        st.title('クーポン一覧')
         st.text_input("店名検索")
         st.dataframe(df, column_config={"shopData":st.column_config.LinkColumn("店名", )})
     elif screen == "ブックマーク":
@@ -53,3 +54,36 @@ def get_geolocation():
         st.write("位置情報の取得を許可してください。")
 
 main()
+
+def get_coupon_list():
+    """
+    Retrieves and filters the list of available coupons from shop data.
+    """
+    service = Service()
+    all_shops = service.getShopList()
+
+    coupon_data = []
+    for shop in all_shops:
+        if shop.cooponList and shop.cooponList != "[]": # Check if cooponList is not empty or literal '[]'
+            # Assuming cooponList is a string representation of a list, e.g., "['10%オフ', 'ドリンク1杯無料']"
+            # We need to parse it. Using ast.literal_eval is safer for actual lists.
+            # For this example, let's assume it's just a simple string for now or a proper list.
+            try:
+                import ast
+                coupons = ast.literal_eval(shop.cooponList)
+            except (ValueError, SyntaxError):
+                coupons = [shop.cooponList] # Treat as a single string if parsing fails
+
+            for coupon in coupons:
+                coupon_data.append({
+                    "店名": shop.name,
+                    "クーポン": coupon,
+                    "shopData": shop.pageLink # Storing the link for the LinkColumn
+                })
+
+    df_coupons = pd.DataFrame(coupon_data)
+
+    if shop_name_filter:
+        df_coupons = df_coupons[df_coupons["店名"].str.contains(shop_name_filter, case=False, na=False)]
+    
+    return df_coupons
