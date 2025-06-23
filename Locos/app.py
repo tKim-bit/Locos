@@ -9,6 +9,7 @@ def main():
     st.title('locos\n-地域のお店発見-')
     screen = st.sidebar.selectbox("", ["ホーム", "クーポン", "ブックマーク"])
     if screen == "ホーム":
+        search_button = st.button('詳細条件で検索')
         get_geolocation()
         st.button('周辺の店舗検索')
         st.map(st.session_state.geoloc)
