@@ -1,10 +1,9 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-from streamlit_javascript import st_javascript
+from streamlit_js_eval import st_js_eval
 
-from Service import Service
-
+from Service.Service import Service
 
 def main():
     st.title('locos\n-地域のお店発見-')
@@ -14,8 +13,7 @@ def main():
         st.button('周辺の店舗検索')
         st.map(st.session_state.geoloc)
     elif screen == "クーポン":
-        def get_coupon_list()
-        st.title('クーポン一覧')
+        st.title('ブックマーク一覧')
         st.text_input("店名検索")
         st.dataframe(df, column_config={"shopData":st.column_config.LinkColumn("店名", )})
     elif screen == "ブックマーク":
@@ -25,19 +23,19 @@ def main():
 
 def get_geolocation():
     # JSで現在地取得
-    coords = st_javascript(
+    coords = streamlit_js_eval(
+        js_expressions=
         """
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const coords = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                };
-                window.parent.postMessage({type: 'streamlit:setComponentValue', value: coords}, '*')
-            }
+        new Promise((resolve, reject) => {
+            navigator.geolocation.watchPosition(
+                pos => {resolve({latitude: pos.coords.latitude,
+                                longitude: pos.coords.longitude});},
+                err => reject(err),
+                { enableHighAccuracy: true }
         );
-        """
-    )
+    });
+    """,
+    key="get_location")
     
     st.session_state['geoloc'] = coords
     st.text(type(coords))
@@ -52,7 +50,6 @@ def get_geolocation():
             st.markdown(f"- **{shop.name}**（{shop.adress}）")
     else:
         st.write("位置情報の取得を許可してください。")
-
 main()
 
 def get_coupon_list():
