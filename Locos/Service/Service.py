@@ -50,11 +50,16 @@ class Service:
     def searchReview(self,shopList,review,only=False):
         result=list()
         for shop in shopList:
-            if only:
-                if review-0.5<=shop.reviewAvg<=review+0.5:
+            if revew_min==None and revew_max==None:
+                result.append(shop)
+            elif revew_min==None and revew_max !=None:
+                if shop.reviewAvg<=revew_max:
                     result.append(shop)
-            else:
-                if review<=shop.reviewAvg:
+            elif revew_min !=None and revew_max ==None:
+                if revew_min<=shop.reviewAvg:
+                    result.append(shop)
+            elif revew_min!=None and revew_max!=None:
+                if revew_min<=shop.reviewAvg<=revew_max:
                     result.append(shop)
         return result
     
