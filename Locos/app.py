@@ -12,7 +12,12 @@ def main():
         search_button = st.button('詳細条件で検索')
         get_geolocation()
         st.button('周辺の店舗検索')
-        st.map(st.session_state.geoloc)
+        coords = st.session_state.get("geoloc")
+        if coords and "latitude" in coords and "longitude" in coords:
+            df = pd.DataFrame({"lat": [coords["latitude"]], "lon": [coords["longitude"]]})
+            st.map(df)
+        else:
+            st.write("位置情報を取得してください。")
         if search_button:
             searchform()
     elif screen == "クーポン":
