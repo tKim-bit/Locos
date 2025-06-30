@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-from streamlit_js_eval import st_js_eval
+from streamlit_js_eval import streamlit_js_eval
 
 from Service.Service import Service
 
@@ -46,7 +46,6 @@ def get_geolocation():
     key="get_location")
     
     st.session_state['geoloc'] = coords
-    st.text(type(coords))
     
     # 現在地が取得できたら店情報を表示
     if coords and "latitude" in coords and "longitude" in coords:
