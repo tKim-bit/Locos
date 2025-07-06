@@ -47,7 +47,7 @@ class Service:
                 result.append(shop)
         return result
     
-    def searchReview(self,shopList,review,only=False):
+    def searchReview(self,shopList,revew_min,revew_max):
         result=list()
         for shop in shopList:
             if revew_min==None and revew_max==None:
