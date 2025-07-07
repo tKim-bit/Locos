@@ -13,12 +13,14 @@ class ShopData:
         reviewAvg 評価平均
         SNSLink SNSリンク(dict)
         pageLink ページのリンク
+        lat 緯度
+        lng 軽度
         """
 
     def __init__(self,name="未設定",adress="未設定",tell="未設定",openTime="未設定",
                  closeDay="未設定",parking="未設定",keyword=list(),imagList=list(),
                  cooponList=list(),checkCnt=0,reviewSum=0,reviewCnt=0,reviewAvg="-",
-                 SNSLink=dict(),pageLink=""):
+                 SNSLink=dict(),pageLink="",lat=0,lng=0):
         self.name=name
         self.adress=adress
         self.tell=tell
@@ -34,6 +36,8 @@ class ShopData:
         self.reviewAvg=reviewAvg
         self.SNSLink=SNSLink
         self.pageLink=pageLink
+        self.lat=lat
+        self.lng=lng
         
     def appendImg(self,imgPathList):
         for imgPath in imgPathList:
