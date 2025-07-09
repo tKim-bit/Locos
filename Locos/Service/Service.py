@@ -65,14 +65,15 @@ class Service:
     
     # ここから、位置情報関係
     def get_nearby_places(self, lat, lng, radius=500, shopList=None):
-        api_key = ""  # ここに取得したAPIキーを入れる
+        api_key = "459bd2c3a10f466e8ec2db677078c5eb"  # ここにGeoapifyのAPIキーを入力
         url = (
-            f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-            f"location={lat},{lng}&radius={radius}&type=store&key={api_key}"
+            f"https://api.geoapify.com/v2/places?categories=commercial.supermarket,"
+            f"commercial.shopping_mall,commercial.convenience&filter=circle:{lng},{lat},{radius}"
+            f"&limit=20&apiKey={api_key}"
         )
         response = requests.get(url)
         data = response.json()
-        results = data.get("results", [])
+        results = data.get("features", [])
 
         shopDataList = []
         for place in results:
