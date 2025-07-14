@@ -1,6 +1,6 @@
 import csv
 import os
-from Data import ShopData
+from Data.ShopData import ShopData
 
 import requests  # 位置情報から店情報を取得するために使用（例: Google Places API）
 
